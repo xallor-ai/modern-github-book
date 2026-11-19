@@ -157,8 +157,7 @@ git diff --cached -- resources.csv catalog.py build.py test_catalog.py .gitignor
 确认 staged diff 同时包含数据、校验器、构建器、测试和忽略规则后再提交：
 
 ~~~bash
-git add resources.csv catalog.py build.py test_catalog.py .gitignore
-git commit -m "test: report missing resource category lines"
+git commit -m "feat: add resource validation program"
 git push -u origin feature/validate-resources
 ~~~
 

@@ -119,6 +119,8 @@ jobs:
 
 将 pages.yml 放入工作分支，提交并创建 PR。PR 事件只运行 build，deploy job 会跳过；合入 main 或手动从 main 运行时才进入 release Environment。这样可以先验证构建，再决定是否部署。
 
+第 8 章的 `resource-site` artifact 用于 CI 的跨 job 校验；本章的 Pages artifact 是 deploy-pages 专用输入。当前主线会在 pages workflow 中重新 checkout、测试和构建一次，因此两者是两个独立构建结果，不能把它们描述成同一份已经晋级的产物。如果需要构建一次、验证后原样部署，应另行设计 artifact promotion 流程。
+
 ## 启用 Pages
 
 Pages 的可用性受仓库可见性、账号计划和组织策略影响。若 Settings → Pages 或 API 返回计划不支持，先记录原始响应；本章的 YAML 和本地构建仍可验证，但不能把部署失败归因于 workflow。

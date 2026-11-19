@@ -90,7 +90,13 @@ gh issue list --repo YOUR_LOGIN/resource-nav
 gh issue view PARENT_ISSUE_NUMBER --repo YOUR_LOGIN/resource-nav
 ~~~
 
-创建子 Issue 时，GitHub CLI 支持 parent 参数：
+创建子 Issue 时，较新的 GitHub CLI 支持 `--parent` 参数。先核对版本：
+
+~~~bash
+gh --version
+~~~
+
+当前示例按 gh 2.94.0 或更新版本书写；如果帮助中没有 `--parent`，使用本章前面的网页 Create sub-issue / Add existing issue 路径，不要为了这个可选命令升级主线环境。
 
 ~~~bash
 gh issue create --repo YOUR_LOGIN/resource-nav --title "补充贡献说明" --body "写清提交前检查" --parent PARENT_ISSUE_NUMBER

@@ -43,7 +43,7 @@ status: ready
 
 ~~~text
 请完成 Issue #ISSUE_NUMBER。
-只允许修改 test_catalog.py 和必要的 catalog.py。
+只允许修改 test_catalog.py；如果你的 Issue 允许其他文件，必须以该 Issue 的允许清单为准。
 先给出计划，再执行。
 必须运行 python -m unittest discover -s . -p 'test_*.py' -v。
 完成后说明实际修改文件、测试命令和结果；不要创建或修改 workflow、Secrets、权限或发布设置。

@@ -26,9 +26,9 @@ status: ready
 
 这些文件应通过一个正常 PR 进入 main。文件存在不等于 GitHub 页面已经加载模板；合并后再打开 New issue 和 New pull request 验证。
 
-## 最小贡献指南
+## 使用已经合入的贡献指南
 
-从干净 main 创建维护分支：
+第 5 章已经把 CONTRIBUTING.md 合入 main。本章不再重写它，而是在同一维护分支中补充 Issue Form 和 Pull Request 模板：
 
 ~~~bash
 git switch main
@@ -36,80 +36,7 @@ git pull --ff-only origin main
 git switch -c docs/contribution-templates
 ~~~
 
-CONTRIBUTING.md 可以从以下内容开始：
-
-~~~markdown
-# 贡献指南
-
-1. 先搜索已有 Issue，避免重复需求。
-2. 每个资源必须有 title、绝对 HTTP(S) URL 和 category。
-3. 提交前运行 git diff --check，并在 PR 中说明尚未进行的程序验证。
-4. Pull Request 说明修改文件、测试结果和未验证部分。
-5. 不提交 Secrets、生成目录或个人凭据。
-~~~
-
-Issue 表单和 PR 模板只收集完成工作所需的字段，不要把所有规则复制三遍。
-
-## 在正确路径创建模板
-
-在一个维护分支中创建两个文件：
-
-- .github/ISSUE_TEMPLATE/resource.yml
-- .github/pull_request_template.md
-
-resource.yml 的最小内容：
-
-~~~yaml
-name: Add a resource
-description: Suggest one learning resource
-title: "[Resource] "
-body:
-  - type: input
-    id: title
-    attributes:
-      label: Resource title
-    validations:
-      required: true
-  - type: input
-    id: url
-    attributes:
-      label: URL
-    validations:
-      required: true
-  - type: input
-    id: category
-    attributes:
-      label: Category
-    validations:
-      required: true
-~~~
-
-pull_request_template.md 的最小内容：
-
-~~~markdown
-## What changed
-
-## Related issue
-
-## Verification
-- [ ] git diff --check
-- [ ] Tests or reason they are not applicable
-
-## Not verified
-
-~~~
-
-在 Git Bash 中核对路径并通过 PR 合入：
-
-~~~bash
-mkdir -p .github/ISSUE_TEMPLATE
-# 将上面两段内容分别保存到指定文件
-git add .github/ISSUE_TEMPLATE/resource.yml .github/pull_request_template.md
-git commit -m "docs: add contribution templates"
-git push -u origin docs/contribution-templates
-~~~
-
-合并后打开 New issue 和 New pull request，确认模板真的被 GitHub 加载。文件存在、PR 合入和页面加载是三个不同的证据。
+打开 CONTRIBUTING.md，确认它已经包含资源字段、提交前检查、PR 描述和凭据边界；若正文不完整，先通过一个单独的文档 PR 修复，再继续模板实验。
 
 ## 谁可以做什么
 

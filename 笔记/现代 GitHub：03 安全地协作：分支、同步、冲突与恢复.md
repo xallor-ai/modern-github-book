@@ -197,10 +197,12 @@ git status --short
 
 这会丢掉 README 中未提交的修改。它不会影响已经提交的历史，也不会恢复被提交后再删除的内容。对不能确定的文件，先复制一份，再使用 restore。
 
-如果修改已经放入暂存区：
+如果修改已经放入暂存区，先在临时实验中重新产生一段修改：
 
 ~~~bash
+printf '\n暂存区实验内容\n' >> README.md
 git add README.md
+git diff --cached -- README.md
 git restore --staged README.md
 git restore README.md
 ~~~
@@ -225,7 +227,7 @@ git revert --no-edit HEAD
 git log --oneline -3
 ~~~
 
-编辑提交信息并完成后，新的提交会抵消旧提交的文件差异，但历史中仍保留“发生过错误”和“如何纠正”的证据。对于已经合入 main 的错误，通常通过一个新的 Revert Pull Request 完成，而不是直接 reset main。
+使用 `--no-edit` 会直接采用默认提交信息；新的提交会抵消旧提交的文件差异，但历史中仍保留“发生过错误”和“如何纠正”的证据。对于已经合入 main 的错误，通常通过一个新的 Revert Pull Request 完成，而不是直接 reset main。
 
 ## 只在本地草稿上移动 HEAD：reset
 
