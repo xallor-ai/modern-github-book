@@ -1,5 +1,7 @@
 # 现代 GitHub：从入门到实战与 AI 自动化
 
+![书册封面](cover.png)
+
 这是一套面向 Git/GitHub 初学者的实践型书稿。全书以一个 `resource-nav` 学习资源导航项目为主线，从第一次网页贡献开始，逐步学习 Git Bash、分支、Issue、Pull Request、CI、Pages、维护和受约束的 AI 自动化。
 
 普通主线命令统一使用 Git Bash；Self-hosted Runner、GitHub API/App、Webhook、Actions 工程化和第三方 Agent 放在附录中，按实际场景阅读。
