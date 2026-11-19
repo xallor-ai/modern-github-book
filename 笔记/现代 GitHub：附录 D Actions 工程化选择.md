@@ -24,7 +24,7 @@ strategy:
   matrix:
     python-version: ['3.11', '3.12']
 steps:
-  - uses: actions/setup-python@v5
+  - uses: actions/setup-python@v7
     with:
       python-version: ${{ matrix.python-version }}
 ~~~

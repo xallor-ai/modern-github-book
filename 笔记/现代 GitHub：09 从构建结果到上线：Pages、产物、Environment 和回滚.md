@@ -67,8 +67,8 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - name: Validate catalog
@@ -94,7 +94,7 @@ jobs:
           )
           PY
       - name: Upload site artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: site
 
@@ -112,7 +112,7 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 ~~~
 
 这个示例中的 provenance.json 是本流程真实生成的文件，包含仓库、提交 SHA、run ID 和尝试次数。它不是签名证明，也不替代 artifact attestations；它只是让读者能从页面追到这次构建的来源。

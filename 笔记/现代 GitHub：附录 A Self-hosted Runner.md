@@ -150,7 +150,7 @@ if __name__ == "__main__":
     unittest.main()
 ```
 
-再添加 `.github/workflows/local-ci.yml`。它只手动运行，只接受默认示例分支 main，使用 Windows PowerShell，不依赖本机另装 PowerShell 7：
+再添加 `.github/workflows/local-ci.yml`。它只手动运行，只接受默认示例分支 main，使用 Windows PowerShell，不依赖本机另装 PowerShell 7。当前示例使用 checkout v7；checkout、setup-python、artifact 相关 action 的新主版本可能要求 Runner 2.327.1 或更新版本。注册页面生成的 Runner 版本应先满足 action 的兼容要求，再开始实验：
 
 ```yaml
 name: Local Windows CI
