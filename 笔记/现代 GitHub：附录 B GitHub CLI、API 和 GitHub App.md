@@ -12,7 +12,7 @@ status: ready
 
 # 现代 GitHub：附录 B GitHub CLI、API 和 GitHub App
 
-> 本文收录于 [AI-Engineering-Notes](https://github.com/xallor-ai/AI-Engineering-Notes)，分享 AI 技术研究、工程实践与应用探索。欢迎 Star 关注后续更新。欢迎通过 Issue 交流和纠错。
+> 本书配套仓库：[modern-github-book](https://github.com/xallor-ai/modern-github-book)。欢迎通过仓库 Issue 提交勘误、反馈和改进建议。
 
 主线只需要 gh 的少量命令。只有当网页和现有命令无法表达需求时，才进入 API；只有当程序需要自己的安装身份、权限和生命周期时，才注册 GitHub App。三者不是从易到难的同一条命令列表。
 

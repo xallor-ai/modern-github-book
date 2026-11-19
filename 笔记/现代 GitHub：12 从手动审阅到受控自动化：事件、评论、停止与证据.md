@@ -12,7 +12,7 @@ status: ready
 
 # 现代 GitHub：从手动审阅到受控自动化：事件、评论、停止与证据
 
-> 本文收录于 [AI-Engineering-Notes](https://github.com/xallor-ai/AI-Engineering-Notes)，分享 AI 技术研究、工程实践与应用探索。欢迎 Star 关注后续更新。欢迎通过 Issue 交流和纠错。
+> 本书配套仓库：[modern-github-book](https://github.com/xallor-ai/modern-github-book)。欢迎通过仓库 Issue 提交勘误、反馈和改进建议。
 
 第 11 章中的 Agent 是一次有边界的任务。本章把一个更窄的任务做成事件自动化：当同仓库 Pull Request 修改 resources.csv 时，辅助程序读取差异，最多发表一条评论。它不运行 PR 代码、不批准、不合并，也不把评论当成 CI 或人工审查。
 

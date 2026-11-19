@@ -11,7 +11,7 @@ status: ready
 
 # 现代 GitHub：附录 D Actions 工程化选择
 
-> 本文收录于 [AI-Engineering-Notes](https://github.com/xallor-ai/AI-Engineering-Notes)，分享 AI 技术研究、工程实践与应用探索。欢迎 Star 关注后续更新。欢迎通过 Issue 交流和纠错。
+> 本书配套仓库：[modern-github-book](https://github.com/xallor-ai/modern-github-book)。欢迎通过仓库 Issue 提交勘误、反馈和改进建议。
 
 工程化不是把所有 Actions 功能都加进一个 workflow，而是先确认当前问题，再选择最小工具。
 
