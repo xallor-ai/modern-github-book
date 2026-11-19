@@ -1,0 +1,304 @@
+
+========== 4.3 state snapshot ==========
+$ git status --short --branch
+## main...origin/main
+ M README.md
+M  resources.csv
+?? notes.txt
+[exit=0]
+PASS  status shows staged, unstaged and untracked
+
+========== 4.4 restore ==========
+$ git restore README.md
+[exit=0]
+$ git restore --staged resources.csv
+[exit=0]
+$ git status --short
+ M resources.csv
+?? notes.txt
+[exit=0]
+PASS  restore --staged keeps the worktree edit
+$ git restore resources.csv
+[exit=0]
+$ git restore --source=HEAD~1 resources.csv
+[exit=0]
+$ git diff --stat
+ resources.csv | 1 -
+ 1 file changed, 1 deletion(-)
+[exit=0]
+PASS  restore --source rolls one file back to HEAD~1
+
+========== 4.4 fsck: content that was staged once is still in the object store ==========
+$ git fsck --lost-found
+dangling blob 0445f2abe5cfe172708c39dbdeba3c59ddaf8635
+dangling blob b1ee84d71087f63a7a3378f7feb46e8582ef66e0
+[exit=0]
+$ bash -c grep -l "Pro Git" .git/lost-found/other/*
+.git/lost-found/other/b1ee84d71087f63a7a3378f7feb46e8582ef66e0
+[exit=0]
+$ git show b1ee84d71087f63a7a3378f7feb46e8582ef66e0
+title,url,category
+GitHub Docs,https://docs.github.com/,GitHub
+Python Docs,https://docs.python.org/3/,Python
+Pro Git (zh),https://git-scm.com/book/zh/v2,Git
+[exit=0]
+PASS  lost staged content recovered from dangling blob
+
+========== 4.5 stash structure ==========
+$ git stash push -m wip: mdn
+Saved working directory and index state On main: wip: mdn
+[exit=0]
+$ git status --short
+?? TODO.md
+[exit=0]
+PASS  plain stash leaves untracked file behind
+$ git stash push -u -m wip: mdn + todo
+Saved working directory and index state On main: wip: mdn + todo
+[exit=0]
+$ git status --short
+[exit=0]
+$ git rev-list --parents -n 1 stash@{0}
+7aa99f35a5185c80f2956715969990d74f719f03 5fc5e5bb5f7f295dd76694fe9bf720eb939b1609 b2594e53a958667e0e6083f8e26987b813907153 7ce2cfeb620d155de43118d69de153532b5afce8
+[exit=0]
+PASS  stash -u commit has three parents
+$ git stash drop
+Dropped refs/stash@{0} (7aa99f35a5185c80f2956715969990d74f719f03)
+[exit=0]
+$ git stash list
+[exit=0]
+$ bash -c git fsck --unreachable --no-reflogs 2>/dev/null | grep commit
+unreachable commit 70ac9b837629c9837636756d677434e157bd19f6
+unreachable commit b2594e53a958667e0e6083f8e26987b813907153
+unreachable commit 7aa99f35a5185c80f2956715969990d74f719f03
+unreachable commit 7ce2cfeb620d155de43118d69de153532b5afce8
+[exit=0]
+PASS  dropped stash commit is unreachable but present
+$ git stash apply 7aa99f35a5185c80f2956715969990d74f719f03
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   resources.csv
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	TODO.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+[exit=0]
+PASS  dropped stash re-applied (tracked + untracked)
+
+========== 4.5 a conflicting pop keeps the stash ==========
+$ git stash pop
+Auto-merging resources.csv
+CONFLICT (content): Merge conflict in resources.csv
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Unmerged paths:
+  (use "git restore --staged <file>..." to unstage)
+  (use "git add <file>..." to mark resolution)
+	both modified:   resources.csv
+
+no changes added to commit (use "git add" and/or "git commit -a")
+The stash entry is kept in case you need it again.
+[exit=1]
+$ git stash list
+stash@{0}: On main: wip: stash side
+[exit=0]
+PASS  stash entry kept after conflicting pop
+
+========== 4.6 reset modes ==========
+--- reset --soft HEAD~1
+HEAD -> feat: add Python docs
+M  resources.csv
+(end of status)
+--- reset --mixed HEAD~1
+HEAD -> feat: add Python docs
+ M resources.csv
+(end of status)
+--- reset --hard HEAD~1
+HEAD -> feat: add Python docs
+(end of status)
+PASS  after --hard the Rust line is gone from the worktree
+$ git reset --hard ORIG_HEAD
+HEAD is now at 40ba9a9 feat: add Rust book
+[exit=0]
+PASS  ORIG_HEAD restores the commit removed by reset
+
+========== 4.6 reset --keep refuses to destroy local edits ==========
+$ git reset --keep HEAD~1
+error: Entry 'resources.csv' not uptodate. Cannot merge.
+fatal: Could not reset index file to revision 'HEAD~1'.
+[exit=128]
+PASS  reset --keep aborted, commit still there
+PASS  reset --keep aborted, local edit still there
+$ git reset --keep HEAD~1
+[exit=0]
+PASS  reset --keep moved HEAD and kept unrelated edit
+
+========== 4.7 reflog: recover a deleted branch ==========
+$ git branch -d feature/link-check
+error: the branch 'feature/link-check' is not fully merged
+hint: If you are sure you want to delete it, run 'git branch -D feature/link-check'
+hint: Disable this message with "git config set advice.forceDeleteBranch false"
+[exit=1]
+$ git branch -D feature/link-check
+Deleted branch feature/link-check (was 51feded).
+[exit=0]
+$ git reflog show feature/link-check
+fatal: ambiguous argument 'feature/link-check': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+[exit=128]
+$ git reflog -n 4
+5fc5e5b HEAD@{0}: checkout: moving from feature/link-check to main
+51feded HEAD@{1}: commit: feat: add link checker skeleton
+5fc5e5b HEAD@{2}: checkout: moving from main to feature/link-check
+5fc5e5b HEAD@{3}: reset: moving to origin/main
+[exit=0]
+$ git branch feature/link-check 51feded38b8bbcfa86a15af8e3f0de84b31c8ad5
+[exit=0]
+PASS  deleted branch restored from HEAD reflog
+
+========== 4.7 reflog: undo a rebase ==========
+$ git log --oneline -3
+a8a2734 docs: document link checker
+51feded feat: add link checker skeleton
+5fc5e5b feat: add Python docs
+[exit=0]
+$ git rebase --onto main HEAD~1
+Rebasing (1/1)
+Successfully rebased and updated refs/heads/feature/link-check.
+[exit=0]
+$ git log --oneline -3
+1f12949 docs: document link checker
+5fc5e5b feat: add Python docs
+c05270f chore: initial catalog
+[exit=0]
+PASS  wrong --onto dropped the skeleton commit
+$ bash -c git reflog -n 6 | grep -E 'rebase|commit'
+1f12949 HEAD@{0}: rebase (finish): returning to refs/heads/feature/link-check
+1f12949 HEAD@{1}: rebase (pick): docs: document link checker
+5fc5e5b HEAD@{2}: rebase (start): checkout main
+a8a2734 HEAD@{3}: commit: docs: document link checker
+[exit=0]
+$ git reset --hard HEAD@{3}
+HEAD is now at a8a2734 docs: document link checker
+[exit=0]
+PASS  reflog entry before 'rebase (start)' restores pre-rebase tip
+
+========== 4.8 revert a plain commit ==========
+$ git revert --no-edit HEAD
+[main 578d3a4] Revert "feat: add broken link"
+ Date: Mon Jan 5 10:00:00 2026 +0800
+ 1 file changed, 1 deletion(-)
+[exit=0]
+$ git log --oneline -3
+578d3a4 Revert "feat: add broken link"
+17e375a feat: add broken link
+5fc5e5b feat: add Python docs
+[exit=0]
+PASS  revert removed the line
+
+========== 4.8 revert a merge, then the re-merge trap ==========
+$ git revert --no-edit f01caaeb4e34dfd6437286ec3d002ff9ce9876e1
+error: commit f01caaeb4e34dfd6437286ec3d002ff9ce9876e1 is a merge but no -m option was given.
+fatal: revert failed
+[exit=128]
+$ git revert --no-edit -m 1 f01caaeb4e34dfd6437286ec3d002ff9ce9876e1
+[main d93eb3f] Revert "Merge feature/categories"
+ Date: Mon Jan 5 10:00:00 2026 +0800
+ 2 files changed, 3 deletions(-)
+ delete mode 100644 categories.py
+[exit=0]
+PASS  merge revert removed categories.py
+$ git merge --no-edit feature/categories
+Merge made by the 'ort' strategy.
+ test_categories.py | 3 +++
+ 1 file changed, 3 insertions(+)
+ create mode 100644 test_categories.py
+[exit=0]
+$ git log --oneline --graph -6
+*   01b2d78 Merge branch 'feature/categories'
+|\  
+| * 42c8806 test: cover categories
+* | d93eb3f Revert "Merge feature/categories"
+* | f01caae Merge feature/categories
+|\| 
+| * 46acc60 docs: mention categories
+| * d40ee73 feat: add category list
+|/  
+[exit=0]
+$ ls
+README.md
+resources.csv
+test_categories.py
+[exit=0]
+PASS  TRAP: re-merge is clean but brings only the new commit
+$ git revert --no-edit d93eb3f0db1520571d02d48da343baca5a7af3a2
+[main d592ee3] Reapply "Merge feature/categories"
+ Date: Mon Jan 5 10:00:00 2026 +0800
+ 2 files changed, 3 insertions(+)
+ create mode 100644 categories.py
+[exit=0]
+PASS  reverting the revert restores the earlier commits
+
+========== 4.8 variant: follow-up touches a reverted file -> modify/delete conflict ==========
+$ git merge --no-edit feature/tags
+CONFLICT (modify/delete): tags.py deleted in HEAD and modified in feature/tags.  Version feature/tags of tags.py left in tree.
+Automatic merge failed; fix conflicts and then commit the result.
+[exit=1]
+PASS  modify/delete conflict reported
+$ git merge --abort
+[exit=0]
+
+========== 4.9 force push overwrites a teammate ==========
+$ git push --force-with-lease
+To /tmp/resnav-ch04/origin.git
+ ! [rejected]        feature/shared -> feature/shared (stale info)
+error: failed to push some refs to '/tmp/resnav-ch04/origin.git'
+[exit=1]
+$ git push --force-with-lease --force-if-includes
+To /tmp/resnav-ch04/origin.git
+ ! [rejected]        feature/shared -> feature/shared (stale info)
+error: failed to push some refs to '/tmp/resnav-ch04/origin.git'
+[exit=1]
+PASS  lease rejected an overwrite of Bob's unseen commit
+$ git push --force-with-lease
+To /tmp/resnav-ch04/origin.git
+ + 36bc6fc...c66df2f feature/shared -> feature/shared (forced update)
+[exit=0]
+$ git -C /tmp/resnav-ch04/origin.git log --oneline -1 feature/shared
+c66df2f feat: shared v1 (reworded)
+[exit=0]
+PASS  after a background fetch, plain --force-with-lease overwrote Bob
+$ git push origin 36bc6fc3afb221a4c10b53644aa36dcb2776b7aa:refs/heads/feature/shared-bob
+To /tmp/resnav-ch04/origin.git
+ * [new branch]      36bc6fc3afb221a4c10b53644aa36dcb2776b7aa -> feature/shared-bob
+[exit=0]
+PASS  Bob's commit restored on the remote from his clone
+
+========== 4.9 --force-if-includes catches the background-fetch case ==========
+$ git push --force-with-lease --force-if-includes
+To /tmp/resnav-ch04/origin.git
+ ! [rejected]        feature/shared -> feature/shared (remote ref updated since checkout)
+error: failed to push some refs to '/tmp/resnav-ch04/origin.git'
+hint: Updates were rejected because the tip of the remote-tracking branch has
+hint: been updated since the last checkout. If you want to integrate the
+hint: remote changes, use 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+[exit=1]
+PASS  --force-if-includes rejected despite fresh remote-tracking ref
+
+========== 4.10 a reverted secret is still in history ==========
+$ git log --oneline -S ghp_FAKE
+8fe510c Revert "chore: local config"
+d8d82c8 chore: local config
+[exit=0]
+PASS  revert does not remove a secret from history
+
+ALL CHECKS PASSED
