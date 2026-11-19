@@ -12,7 +12,7 @@ status: ready
 
 # 现代 GitHub：让已上线项目继续可靠：维护、费用、权限与故障
 
-> 本文收录于 [AI-Engineering-Notes](https://github.com/xallor-ai/AI-Engineering-Notes)，分享 AI 技术研究、工程实践与应用探索。欢迎 Star 关注后续更新，也欢迎通过 Issue 交流和纠错。
+> 本书配套仓库：[modern-github-book](https://github.com/xallor-ai/modern-github-book)。欢迎通过仓库 Issue 提交勘误、反馈和改进建议。
 
 上线不是终点。一个小项目会遇到失败运行、依赖更新、权限过宽、Actions 额度耗尽和需要暂停自动化的情况。本章不罗列设置项，而是用维护循环回答：发生什么、先查哪一层、如何处理、怎样知道恢复了。
 

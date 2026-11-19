@@ -11,7 +11,7 @@ status: ready
 
 # 现代 GitHub：附录 A Self-hosted Runner
 
-> 本文收录于 [AI-Engineering-Notes](https://github.com/xallor-ai/AI-Engineering-Notes)，分享 AI 技术研究、工程实践与应用探索。欢迎 Star 关注后续更新，也欢迎通过 Issue 交流和纠错。
+> 本书配套仓库：[modern-github-book](https://github.com/xallor-ai/modern-github-book)。欢迎通过仓库 Issue 提交勘误、反馈和改进建议。
 
 本书执行环境专题。[全书导读](<现代 GitHub：00 导读.md>) · [Actions 基础](<现代 GitHub：08 让每个 PR 接受自动检查：Actions、CI 和合并门禁.md>)。前置是能手动运行 workflow 并理解 job 与 runner；本专题另用私有 runner-lab，结束后返回公开 resource-nav 主线。
 

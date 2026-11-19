@@ -13,7 +13,7 @@ status: ready
 
 # 现代 GitHub：从入门到实战与 AI 自动化
 
-> 本文收录于 [AI-Engineering-Notes](https://github.com/xallor-ai/AI-Engineering-Notes)，分享 AI 技术研究、工程实践与应用探索。欢迎 Star 关注后续更新，也欢迎通过 Issue 交流和纠错。
+> 本书配套仓库：[modern-github-book](https://github.com/xallor-ai/modern-github-book)。欢迎通过仓库 Issue 提交勘误、反馈和改进建议。
 
 这本书不按 GitHub 菜单逐项介绍功能，而是带你完成一项工作：从读懂一个仓库开始，提出需求，修改文件，提交 Pull Request，接受自动检查，把结果发布出去，再判断哪些环节适合交给 AI。
 

@@ -11,7 +11,7 @@ status: ready
 
 # 现代 GitHub：从需求到可执行计划：Issue、子任务和项目视图
 
-> 本文收录于 [AI-Engineering-Notes](https://github.com/xallor-ai/AI-Engineering-Notes)，分享 AI 技术研究、工程实践与应用探索。欢迎 Star 关注后续更新，也欢迎通过 Issue 交流和纠错。
+> 本书配套仓库：[modern-github-book](https://github.com/xallor-ai/modern-github-book)。欢迎通过仓库 Issue 提交勘误、反馈和改进建议。
 
 到本章为止，项目只有 README 和网页贡献的历史，还没有 Python 程序。我们先用不需要编程的任务学习 Issue、子 Issue 和 Projects：让新读者知道资源应该怎样提交。
 
@@ -67,6 +67,8 @@ Issue 现在描述的是无需编程即可验收的文档任务。这样第 5 �
 如果账号或仓库没有 Issue dependencies，保留父子关系，并在父 Issue 中写明“先完成 README 字段约定，再写贡献指南”；不要为了展示按钮创建虚假的状态。
 
 ## 用 Projects 看工作在哪里
+
+Projects 的网页路径是本章主线。CLI 操作属于可选路径，需要 token 具有 `project` / `read:project` scope；首次刷新 scope 可能要求设备确认或二次验证。若 CLI 授权没有完成，继续使用网页，不要把 CLI 阻断写成 Projects 功能不可用。
 
 在仓库主页打开 Projects → New project，选择 Table，名称填写 Resource navigation work queue，然后创建。进入项目后：
 

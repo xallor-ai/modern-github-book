@@ -11,7 +11,7 @@ status: ready
 
 # 现代 GitHub：从资源清单到小程序：第一次读码、改码和测试
 
-> 本文收录于 [AI-Engineering-Notes](https://github.com/xallor-ai/AI-Engineering-Notes)，分享 AI 技术研究、工程实践与应用探索。欢迎 Star 关注后续更新，也欢迎通过 Issue 交流和纠错。
+> 本书配套仓库：[modern-github-book](https://github.com/xallor-ai/modern-github-book)。欢迎通过仓库 Issue 提交勘误、反馈和改进建议。
 
 前六章已经让你能提出需求、评审文档并建立贡献入口。本章第一次创建可运行程序：先把完整的 resource-nav 示例放进自己的仓库，再理解 CSV 到 HTML 的链路，最后改进错误信息并用测试证明它。
 

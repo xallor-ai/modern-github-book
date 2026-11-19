@@ -11,7 +11,7 @@ status: ready
 
 # 现代 GitHub：让修改经过评审：PR、检查、合并与关闭 Issue
 
-> 本文收录于 [AI-Engineering-Notes](https://github.com/xallor-ai/AI-Engineering-Notes)，分享 AI 技术研究、工程实践与应用探索。欢迎 Star 关注后续更新，也欢迎通过 Issue 交流和纠错。
+> 本书配套仓库：[modern-github-book](https://github.com/xallor-ai/modern-github-book)。欢迎通过仓库 Issue 提交勘误、反馈和改进建议。
 
 上一章已经有两个文档子 Issue。本章只完成第一个：在 README 中写清资源格式和网页贡献路径。它不需要 Python，也不修改 workflow。
 

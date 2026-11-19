@@ -38,3 +38,7 @@
 示例代码、测试、workflow、Webhook fixture 和额度截图位于 [`笔记/_assets/modern-github/`](<笔记/_assets/modern-github/>)。书稿正文会明确哪些资源需要复制、哪些只是参考。
 
 正文会区分本地静态检查、本机测试和 GitHub 云端验证；本仓库不把未执行的云端流程写成已验证结果。
+
+## 逐章实测
+
+关键章节已在临时实验仓库实际执行并记录证据：[TEST-REPORT.md](https://github.com/WangKangAandy/modern-github-book-lab/blob/main/TEST-REPORT.md)。报告区分云端通过、部分通过和账号资格阻断；不把未执行的 Copilot Cloud、gh-aw 云端模型或公网 Webhook 写成成功。

@@ -11,7 +11,7 @@ status: ready
 
 # 现代 GitHub：从一个仓库开始：看懂项目、Issue、提交和 PR
 
-> 本文收录于 [AI-Engineering-Notes](https://github.com/xallor-ai/AI-Engineering-Notes)，分享 AI 技术研究、工程实践与应用探索。欢迎 Star 关注后续更新，也欢迎通过 Issue 交流和纠错。
+> 本书配套仓库：[modern-github-book](https://github.com/xallor-ai/modern-github-book)。欢迎通过仓库 Issue 提交勘误、反馈和改进建议。
 
 本章只完成一件事：你第一次打开 GitHub 后，能看懂一个仓库，并把一项小修改通过 Pull Request 合入自己的主分支。先获得一次完整成功，后面再解释 Git 如何在本地保存同样的过程。
 

@@ -104,14 +104,14 @@ App 安装成功不等于服务端已经能工作；服务端读回一个仓库�
 
 ## 运行随书的最小 App 实验
 
-随书的 [app_practice.py](<_assets/modern-github/integration/app_practice.py>) 将上面的阶段串成一个只针对 `resource-nav` 的实验。它使用 PyJWT 生成短期 App JWT，换取 installation token，读取一个 PR；`comment` 模式才申请 Pull requests write，并在写入后读回评论，最后撤销 installation token。
+随书的 [app_practice.py](<_assets/modern-github/integration/app_practice.py>) 将上面的阶段串成一个只针对 `resource-nav` 的实验。它使用 PyJWT 和 cryptography 生成 RSA 签名的短期 App JWT，换取 installation token，读取一个 PR；`comment` 模式才申请 Pull requests write，并在写入后读回评论，最后撤销 installation token。
 
 先在 Git Bash 创建临时虚拟环境并安装依赖：
 
 ~~~bash
 python -m venv .venv-app
 source .venv-app/Scripts/activate
-python -m pip install PyJWT
+python -m pip install PyJWT cryptography
 ~~~
 
 在 GitHub App 的 Credentials 页面复制 App 的 Client ID，在本机保存刚下载的 PEM 私钥，然后只在当前 Git Bash 会话设置环境变量：

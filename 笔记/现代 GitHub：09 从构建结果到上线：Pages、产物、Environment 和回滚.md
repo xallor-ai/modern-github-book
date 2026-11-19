@@ -13,7 +13,7 @@ status: ready
 
 # 现代 GitHub：从构建结果到上线：Pages、产物、Environment 和回滚
 
-> 本文收录于 [AI-Engineering-Notes](https://github.com/xallor-ai/AI-Engineering-Notes)，分享 AI 技术研究、工程实践与应用探索。欢迎 Star 关注后续更新，也欢迎通过 Issue 交流和纠错。
+> 本书配套仓库：[modern-github-book](https://github.com/xallor-ai/modern-github-book)。欢迎通过仓库 Issue 提交勘误、反馈和改进建议。
 
 CI 通过只说明代码通过了检查。上线还要回答三个问题：构建出来的是什么、它来自哪次提交、谁批准它进入发布环境。本章把这三个问题放进一条 Pages 流程，并用一次回滚验证结果可以恢复。
 
@@ -120,6 +120,8 @@ jobs:
 将 pages.yml 放入工作分支，提交并创建 PR。PR 事件只运行 build，deploy job 会跳过；合入 main 或手动从 main 运行时才进入 release Environment。这样可以先验证构建，再决定是否部署。
 
 ## 启用 Pages
+
+Pages 的可用性受仓库可见性、账号计划和组织策略影响。若 Settings → Pages 或 API 返回计划不支持，先记录原始响应；本章的 YAML 和本地构建仍可验证，但不能把部署失败归因于 workflow。
 
 在仓库 Settings → Pages → Build and deployment 中：
 

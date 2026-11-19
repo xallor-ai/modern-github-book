@@ -11,7 +11,7 @@ status: ready
 
 # 现代 GitHub：从贡献者到维护者：让项目可以被别人继续使用
 
-> 本文收录于 [AI-Engineering-Notes](https://github.com/xallor-ai/AI-Engineering-Notes)，分享 AI 技术研究、工程实践与应用探索。欢迎 Star 关注后续更新，也欢迎通过 Issue 交流和纠错。
+> 本书配套仓库：[modern-github-book](https://github.com/xallor-ai/modern-github-book)。欢迎通过仓库 Issue 提交勘误、反馈和改进建议。
 
 前一章完成了需求、子任务和 PR。本章把这些入口写进项目本身，让陌生贡献者知道如何参与，维护者知道如何分配责任，并能在权限、模板和外部贡献之间保持边界。
 

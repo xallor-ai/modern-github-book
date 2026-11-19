@@ -11,7 +11,7 @@ status: ready
 
 # 现代 GitHub：把一次修改带回本地：Git Bash、Git 和 gh
 
-> 本文收录于 [AI-Engineering-Notes](https://github.com/xallor-ai/AI-Engineering-Notes)，分享 AI 技术研究、工程实践与应用探索。欢迎 Star 关注后续更新，也欢迎通过 Issue 交流和纠错。
+> 本书配套仓库：[modern-github-book](https://github.com/xallor-ai/modern-github-book)。欢迎通过仓库 Issue 提交勘误、反馈和改进建议。
 
 上一章的修改已经在 GitHub 上合入 main。本章把同一个项目带到本地，并说明文件、工作区、暂存区、提交、远程仓库之间的关系。
 

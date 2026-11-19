@@ -11,7 +11,7 @@ status: ready
 
 # 现代 GitHub：让每个 PR 接受自动检查：Actions、CI 和合并门禁
 
-> 本文收录于 [AI-Engineering-Notes](https://github.com/xallor-ai/AI-Engineering-Notes)，分享 AI 技术研究、工程实践与应用探索。欢迎 Star 关注后续更新，也欢迎通过 Issue 交流和纠错。
+> 本书配套仓库：[modern-github-book](https://github.com/xallor-ai/modern-github-book)。欢迎通过仓库 Issue 提交勘误、反馈和改进建议。
 
 第 7 章已经在本机执行过验证。本章把同样的命令放到 GitHub Actions，让每个 Pull Request 都接受一致检查。先理解一次运行如何由 workflow、job、step 和 runner 组成，再配置合并门禁。
 
@@ -145,6 +145,8 @@ title,url,category
 needs 只表达执行依赖，不会自动复制文件。artifact 是明确的文件通道。第 9 章会在这个通道上增加 provenance、Pages 部署和回滚。
 
 ## 设置 required check
+
+Rulesets、required checks 和分支保护的可用入口受仓库可见性、账号计划和组织策略影响。公开仓库通常更适合本书的个人实验；私有仓库若看不到 Rulesets 或 Pages 选项，应记录设置页/API 的原始错误，不能把计划限制当成 YAML 错误。
 
 本书选择 Rulesets 作为唯一配置路径。在仓库 Settings → Rules → Rulesets 中：
 

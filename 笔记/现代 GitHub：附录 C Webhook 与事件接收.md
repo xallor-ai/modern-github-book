@@ -10,7 +10,7 @@ status: ready
 
 # 现代 GitHub：附录 C Webhook 与事件接收
 
-> 本文收录于 [AI-Engineering-Notes](https://github.com/xallor-ai/AI-Engineering-Notes)，分享 AI 技术研究、工程实践与应用探索。欢迎 Star 关注后续更新，也欢迎通过 Issue 交流和纠错。
+> 本书配套仓库：[modern-github-book](https://github.com/xallor-ai/modern-github-book)。欢迎通过仓库 Issue 提交勘误、反馈和改进建议。
 
 API 专题让我们主动询问“现在有哪些 PR”。如果每分钟查询一次，即使没有变化也要请求，还只能在下一轮发现新 PR。Webhook 则在订阅的事件发生时，由 GitHub 向配置好的服务发送 HTTP 请求。推送解决发现变化的入口问题；程序仍可能通过 API 读取当前状态或写评论，两者可以组合使用。[Webhook 概述](https://docs.github.com/en/webhooks/about-webhooks)
 
