@@ -3,8 +3,12 @@
 # throwaway bare "origin". Exits non-zero if any documented behavior changes.
 set -uo pipefail
 
-LAB="${LAB_DIR:-${TMPDIR:-/tmp}/resnav-ch04}"
-rm -rf "$LAB"; mkdir -p "$LAB"; cd "$LAB" || exit 1
+# LAB_DIR selects an existing parent, never a directory to delete.
+LAB_PARENT="${LAB_DIR:-${TMPDIR:-/tmp}}"
+LAB=$(mktemp -d "$LAB_PARENT/resnav-ch04.XXXXXX") || exit 1
+cd "$LAB" || exit 1
+LAB=$(pwd -P)
+printf 'Lab directory (retained for inspection): %s\n' "$LAB"
 
 cat > "$LAB/gitconfig" <<'EOF'
 [user]
