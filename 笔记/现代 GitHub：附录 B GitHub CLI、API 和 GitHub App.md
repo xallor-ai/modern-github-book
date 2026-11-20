@@ -106,7 +106,7 @@ App 安装成功不等于服务端已经能工作；服务端读回一个仓库�
 
 随书的 [app_practice.py](<_assets/modern-github/integration/app_practice.py>) 将上面的阶段串成一个只针对 `resource-nav` 的实验。它使用 PyJWT 和 cryptography 生成 RSA 签名的短期 App JWT，换取 installation token，读取一个 PR；`comment` 模式才申请 Pull requests write，并在写入后读回评论，最后撤销 installation token。
 
-先在 Git Bash 创建临时虚拟环境并安装依赖：
+先在 Git Bash 创建临时虚拟环境并安装依赖。虚拟环境放在项目内的忽略目录，私钥放在项目之外；不要把私钥放在 resource-nav 根目录：
 
 ~~~bash
 python -m venv .venv-app
@@ -114,17 +114,30 @@ source .venv-app/Scripts/activate
 python -m pip install PyJWT cryptography
 ~~~
 
-在 GitHub App 的 Credentials 页面复制 App 的 Client ID，在本机保存刚下载的 PEM 私钥，然后只在当前 Git Bash 会话设置环境变量：
+在 GitHub App 的 Credentials 页面复制 App 的 Client ID。将刚下载的 PEM 私钥保存到用户目录下的专用位置，并限制本机文件权限：
 
 ~~~bash
+mkdir -p "$HOME/.config/modern-github-book"
+# 将下载的 PEM 文件复制到上面的目录，再执行：
+chmod 600 "$HOME/.config/modern-github-book/app-private-key.pem"
 export APP_CLIENT_ID='YOUR_APP_CLIENT_ID'
-export APP_PRIVATE_KEY_PATH="$PWD/app-private-key.pem"
+export APP_PRIVATE_KEY_PATH="$HOME/.config/modern-github-book/app-private-key.pem"
 ~~~
 
-不要把 PEM 文件、Client ID 或环境变量值加入 Git。确认 App 已安装到自己的 `resource-nav`，并且有 Pull requests read 权限。先运行只读实验：
+不要把 PEM 文件、Client ID 或环境变量值加入 Git。作为第二道防线，在 resource-nav 的 `.gitignore` 中加入 `.venv-app/` 和 `*.pem`，并用 `git check-ignore -v` 确认它们确实被忽略。确认 App 已安装到自己的 `resource-nav`，并且有 Pull requests read 权限。
+
+脚本位于书稿仓库的附件目录，读者的 resource-nav 不会自动拥有这个路径。点击上面的附件链接进入文件页，选择 Raw，将脚本保存到 resource-nav 的临时工具目录：
 
 ~~~bash
-python _assets/modern-github/integration/app_practice.py read \
+mkdir -p .tools/modern-github
+# 将 Raw 文件保存为 .tools/modern-github/app_practice.py
+python -m py_compile .tools/modern-github/app_practice.py
+~~~
+
+先运行只读实验：
+
+~~~bash
+python .tools/modern-github/app_practice.py read \
   --repo YOUR_LOGIN/resource-nav \
   --pr PR_NUMBER
 ~~~
@@ -137,7 +150,7 @@ python _assets/modern-github/integration/app_practice.py read \
 cat > app-comment.md <<'EOF'
 App 实验评论：已完成一次受控读回。
 EOF
-python _assets/modern-github/integration/app_practice.py comment \
+python .tools/modern-github/app_practice.py comment \
   --repo YOUR_LOGIN/resource-nav \
   --pr PR_NUMBER \
   --body-file app-comment.md \

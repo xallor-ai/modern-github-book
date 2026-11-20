@@ -126,11 +126,18 @@ git status --short
 
 merge --abort 只取消这次尚未完成的合并，恢复到合并前的工作状态。它不是通用的“撤销所有错误”按钮。
 
-再次合并后，打开 README，删除三行标记，保留你真正想要的一段内容。然后：
+现在再次执行同一个合并，练习完成冲突处理：
+
+~~~bash
+git merge origin/lab/conflict-a
+~~~
+
+打开 README，删除三行标记，保留你真正想要的一段内容。然后：
 
 ~~~bash
 git add README.md
 git commit -m "test: resolve collaboration conflict"
+git push origin lab/conflict-b
 git log --oneline --decorate --graph -5
 ~~~
 
@@ -231,29 +238,38 @@ git log --oneline -3
 
 ## 只在本地草稿上移动 HEAD：reset
 
-如果错误提交只存在于你自己的本地分支，尚未推送，可以用 reset 改变分支指针。先创建备份分支：
+如果错误提交只存在于你自己的本地分支，尚未推送，可以用 reset 改变分支指针。为了不把前面的共享错误提交混进来，先从干净的 main 建立独立实验：
 
 ~~~bash
+git switch main
+git pull --ff-only origin main
+git switch -c lab/reset
+printf '\n这是一条只存在本地的草稿\n' >> README.md
+git add README.md
+git commit -m "docs: create local draft for reset"
 git branch backup/before-reset
 ~~~
 
-保留修改但撤回最近一次提交：
+保留修改但撤回最近一次提交。此时提交没有推送到远程：
 
 ~~~bash
 git reset --soft HEAD~1
 git status
 ~~~
 
-现在修改回到暂存区。下面是另一种选择：请先从备份分支重新开始，不要在 soft reset 后紧接着再执行一次 HEAD~1。
+现在修改回到暂存区。先把这个实验恢复为干净状态，再从备份提交重新开始 mixed reset；不要在 soft reset 后紧接着再执行一次 HEAD~1。
 
 ~~~bash
+git restore --staged README.md
+git restore README.md
 git switch backup/before-reset
 git switch -c lab/reset-mixed
 git reset --mixed HEAD~1
 git status
+git restore README.md
 ~~~
 
-这类 reset 会重写本地历史。若提交已经 push，其他人可能已经基于它工作；此时优先用 revert，或先和协作者约定再进行历史重写。
+这类 reset 会重写本地历史。若提交已经 push，其他人可能已经基于它工作；此时优先用 revert，或先和协作者约定再进行历史重写。最后的 `git restore README.md` 只清理本实验留下的工作区修改，随后 stash 实验可以从干净的 main 开始。
 
 不要把 git reset --hard 当作清理命令。它可能同时删除工作区和暂存区中的内容；除非已经有可恢复副本，否则不要在不理解状态时执行。
 
@@ -319,6 +335,12 @@ cd ~/projects/resource-nav
 git switch main
 git pull --ff-only origin main
 git status --short --branch
+~~~
+
+如果冲突实验只用于本地练习，确认没有待保留的 PR 后，可以删除两个临时远程分支：
+
+~~~bash
+git push origin --delete lab/conflict-a lab/conflict-b
 ~~~
 
 现在你已经把分支、远程同步、冲突、未提交修改、共享错误提交和本地恢复放进同一套判断：先看状态，再决定继续、终止、保留、抵消或恢复。下一章开始把真实需求写成 Issue 和子任务。

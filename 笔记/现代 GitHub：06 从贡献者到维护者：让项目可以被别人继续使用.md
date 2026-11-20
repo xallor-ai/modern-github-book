@@ -38,6 +38,61 @@ git switch -c docs/contribution-templates
 
 打开 CONTRIBUTING.md，确认它已经包含资源字段、提交前检查、PR 描述和凭据边界；若正文不完整，先通过一个单独的文档 PR 修复，再继续模板实验。
 
+在这个维护分支中创建两个模板。Issue Form 只收集新增资源所需的字段，Pull Request 模板要求作者说明差异和验证边界：
+
+~~~bash
+mkdir -p .github/ISSUE_TEMPLATE
+cat > .github/ISSUE_TEMPLATE/resource.yml <<'EOF'
+name: Add a resource
+description: Suggest one learning resource
+title: "[Resource] "
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Resource title
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: URL
+    validations:
+      required: true
+  - type: input
+    id: category
+    attributes:
+      label: Category
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: Why this resource belongs here
+    validations:
+      required: true
+EOF
+
+cat > .github/pull_request_template.md <<'EOF'
+## What changed
+
+## Related issue
+
+## Verification
+- [ ] `git diff --check`
+- [ ] Tests, or the reason tests do not apply
+
+## Not verified
+EOF
+
+git add .github/ISSUE_TEMPLATE/resource.yml .github/pull_request_template.md
+git diff --cached --stat
+git commit -m "docs: add contribution templates"
+git push -u origin docs/contribution-templates
+~~~
+
+创建 PR 后，在 GitHub 的 New issue 和 New pull request 页面确认模板已经出现。文件存在、PR 合入和页面加载是三个不同的证据；如果页面没有加载，先检查默认分支、路径和 YAML 格式。确认模板已加载并合入 `main` 后，再进入下一章。
+
 ## 谁可以做什么
 
 公开可读不等于任何人可以推送或修改规则。个人仓库 owner 可以调整设置和合并；collaborator 的权限取决于授予的角色。组织仓库还会有 triage、write、maintain、admin 等角色，不能把组织权限界面机械套到个人仓库。
@@ -55,3 +110,11 @@ git switch -c docs/contribution-templates
 合并入口文件后，从新建 Issue 和新建 PR 页面验证模板是否出现；从 README 链接验证贡献指南是否可达；从 Settings 验证分支规则和权限边界。若页面没有显示，先检查默认分支、路径和模板格式。
 
 本章结束时，陌生贡献者能找到项目用途、提出结构化 Issue、创建合格 PR，并知道怎样报告测试结果。下一章才把程序和 CI 接回这些入口。
+
+## 本章结束状态
+
+- 此前已经存在：README、CONTRIBUTING.md 和一个干净的 main；
+- 本章改变了：Issue Form 和 Pull Request 模板进入同一个维护分支；
+- 成功时应观察到：New issue 和 New pull request 页面都能加载对应模板；
+- 失败时如何恢复：检查模板路径和 YAML，修复后重新提交 PR；
+- 下一章的输入：项目已经有贡献指南和模板，可以开始引入 Python 程序。

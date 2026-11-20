@@ -50,6 +50,18 @@ Runner 是在本机运行的程序，不是你的编辑器。`actions/checkout` 
 
 本机必须开机、保持联网、避免休眠，并运行 Runner 程序。Runner 主动连接 GitHub，通常不需要公网入站 IP；防火墙或代理仍需允许官方列出的出站 HTTPS 端点，下载 action、依赖和上传产物还会访问其他端点。[通信与运行要求](https://docs.github.com/en/actions/reference/runners/self-hosted-runners)
 
+### 网络受限时配置代理
+
+如果公司网络必须经过代理，不能只在当前 PowerShell 窗口里临时设置变量。Runner 进程启动时才读取代理配置；前台运行可以在启动前设置，服务模式则更适合把配置写入 Runner 安装目录的 `.env`：
+
+```text
+https_proxy=http://proxy.example:8080
+http_proxy=http://proxy.example:8080
+no_proxy=localhost,127.0.0.1
+```
+
+`.env` 只保存在 Runner 机器上，不提交到仓库；代理账号密码也不要写进书稿或 workflow。修改代理后要重启 Runner。若还要访问 Docker action 或 service container，还要单独配置 Docker 的代理。可以按 GitHub 的[代理配置说明](https://docs.github.com/en/actions/how-tos/manage-runners/use-proxy-servers)检查变量、绕过列表和所需出站域名。Windows 也可能需要根据工作流使用的客户端配置 WinHTTP；不要把“浏览器能打开 GitHub”当成 Runner 已具备全部网络条件。
+
 ### 本附录使用独立的私有实验仓库，不是主线必做步骤
 
 不要把日常个人电脑注册到本书公开的 resource-nav 实验仓库或其他公开 fork。GitHub 官方建议自托管 Runner 只用于私有仓库；私有仓库也不自动保证代码可信，协作者提交和第三方 action 同样会在机器上执行。[官方安全提示](https://docs.github.com/en/actions/how-tos/manage-runners/self-hosted-runners/add-runners)
@@ -118,7 +130,9 @@ Get-Location
 runs-on: [self-hosted, windows, x64, lab-windows]
 ```
 
-前三项是本例正常注册时的默认标签，最后一项是刚添加的自定义标签。Runner 必须同时匹配全部标签，且对当前仓库可用。标签是路由条件，不会安装 Windows、Python 或 GPU 驱动，也不是访问控制边界。多台机器若都有这些标签，job 可以落到任意一台可用机器；要指定本机，就让 lab-windows 只标在这台实验 Runner 上。[标签路由](https://docs.github.com/en/actions/how-tos/manage-runners/self-hosted-runners/use-in-a-workflow)
+前三项是本例正常注册时的默认标签，最后一项是刚添加的自定义标签。标签名称不区分大小写，但仍建议按 Runner 页面显示的 `Windows`、`X64` 书写，便于核对。Runner 必须同时匹配全部标签，且对当前仓库可用。标签是路由条件，不会安装 Windows、Python 或 GPU 驱动，也不是访问控制边界。多台机器若都有这些标签，job 可以落到任意一台可用机器；要指定本机，就让 lab-windows 只标在这台实验 Runner 上。[标签路由](https://docs.github.com/en/actions/how-tos/manage-runners/self-hosted-runners/use-in-a-workflow)
+
+本附录使用个人仓库的仓库级 Runner，不需要创建组织级 Runner Group。若迁移到组织 Runner，除了注册权限，还要在组织 Settings → Actions → Runner groups 中确认该仓库被允许使用对应组；`runs-on` 的标签匹配不能绕过 Runner Group 的访问策略。
 
 ## 5. 跑通一个本机单元测试
 
@@ -150,7 +164,7 @@ if __name__ == "__main__":
     unittest.main()
 ```
 
-再添加 `.github/workflows/local-ci.yml`。它只手动运行，只接受默认示例分支 main，使用 Windows PowerShell，不依赖本机另装 PowerShell 7。当前示例使用 checkout v7；checkout、setup-python、artifact 相关 action 的新主版本可能要求 Runner 2.327.1 或更新版本。注册页面生成的 Runner 版本应先满足 action 的兼容要求，再开始实验：
+再添加 `.github/workflows/local-ci.yml`。它只手动运行，只接受默认示例分支 main，使用 Windows PowerShell，不依赖本机另装 PowerShell 7。这里刻意不使用 `shell: bash`：Windows Runner 上的 Bash 可能来自 Git Bash 或 WSL，服务账号的 PATH 也可能不同；如果你改用 Bash，先在同一个 Runner 账号下验证 `bash --version` 和脚本路径，并保持命令语法一致。当前示例使用 checkout v7；checkout、setup-python、artifact 相关 action 的新主版本可能要求 Runner 2.327.1 或更新版本。注册页面生成的 Runner 版本应先满足 action 的兼容要求，再开始实验：
 
 ```yaml
 name: Local Windows CI
