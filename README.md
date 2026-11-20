@@ -10,6 +10,10 @@
 
 [全书大纲与章节写作设计](v2/PLAN.md)已补充五部分、20 章的学习成果、讲解深度及截图计划。[第 4 章候选样章](v2/chapters/04-出错之后.md)用于讨论讲解方式。第二版仍在编写；这些材料合入仓库不表示全书已完成，也不表示计划中的截图已采集。下方目录仍为第一版正文。
 
+## 书稿写作与评审
+
+AI辅助规划、写作和审稿使用仓库内的 [technical-book-writing Skill](.agents/skills/technical-book-writing/SKILL.md)。[当前生产阶段](v2/WRITING-STATUS.md)区分已经规划与真正实施；[三模型完整大纲评审](v2/reviews/multi-model-outline-2026-11-20.md)记录可开写范围及需要先准备的案例。
+
 ## 阅读顺序
 
 从 [导读](<笔记/现代 GitHub：00 导读.md>) 开始，再按章节顺序阅读：
