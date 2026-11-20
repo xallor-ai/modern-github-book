@@ -1,0 +1,4 @@
+interface:
+  display_name: "技术书籍分阶段写作"
+  short_description: "从全书大纲到讲解单元、连续样章与整书编辑，约束AI分阶段完成技术书籍"
+  default_prompt: "使用 $technical-book-writing，根据当前书稿阶段完成本次授权的写作或评审任务。"
